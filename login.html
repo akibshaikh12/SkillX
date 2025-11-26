@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Login - Library Management</title>
+  <style>
+    :root {
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --bg: #f8fafc;
+      --card: #ffffff
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px
+    }
+
+    .login-container {
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 420px;
+      padding: 40px;
+      animation: slideUp 0.4s ease
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 32px
+    }
+
+    .logo-icon {
+      font-size: 48px;
+      margin-bottom: 12px
+    }
+
+    .logo h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #1e293b
+    }
+
+    .logo p {
+      margin: 8px 0 0;
+      color: #64748b;
+      font-size: 14px
+    }
+
+    .form-group {
+      margin-bottom: 20px
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #374151
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+      font-size: 15px;
+      transition: all 0.2s;
+      background: #f8fafc
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: #fff
+    }
+
+    .form-group input::placeholder {
+      color: #94a3b8
+    }
+
+    .btn-login {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      padding: 14px;
+      border-radius: 10px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.2s;
+      margin-top: 8px
+    }
+
+    .btn-login:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3)
+    }
+
+    .btn-login:active {
+      transform: translateY(0)
+    }
+
+    .divider {
+      text-align: center;
+      margin: 24px 0;
+      color: #94a3b8;
+      font-size: 14px;
+      position: relative
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: #e2e8f0
+    }
+
+    .divider::before {
+      left: 0
+    }
+
+    .divider::after {
+      right: 0
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 24px
+    }
+
+    .links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px
+    }
+
+    .links a:hover {
+      text-decoration: underline
+    }
+
+    .links p {
+      margin: 12px 0;
+      color: #64748b;
+      font-size: 14px
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none
+    }
+
+    .remember-forgot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 14px
+    }
+
+    .remember-forgot label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #64748b;
+      cursor: pointer
+    }
+
+    .remember-forgot a {
+      color: var(--accent);
+      text-decoration: none
+    }
+
+    .remember-forgot a:hover {
+      text-decoration: underline
+    }
+
+    .btn-google {
+      width: 100%;
+      background: #fff;
+      color: #1f2937;
+      padding: 14px;
+      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 12px
+    }
+
+    .btn-google:hover {
+      border-color: var(--accent);
+      background: #f8fafc;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1)
+    }
+
+    .btn-google:active {
+      transform: translateY(0)
+    }
+
+    .btn-google img {
+      width: 20px;
+      height: 20px
+    }
+
+    @media (max-width:480px) {
+      .login-container {
+        padding: 30px 24px
+      }
+
+      .logo h1 {
+        font-size: 24px
+      }
+    }
+  </style>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="logo">
+      <div class="logo-icon">📚</div>
+      <h1>User Login</h1>
+      <p>Access your library account</p>
+    </div>
+
+    <div id="errorMsg" class="error"></div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="your.email@example.com" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required />
+      </div>
+
+      <div class="remember-forgot">
+        <label>
+          <input type="checkbox" id="remember" />
+          Remember me
+        </label>
+        <a href="#">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-login">Login</button>
+    </form>
+
+    <button type="button" class="btn-google" id="googleSignInBtn">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M19.6 10.227c0-.709-.064-1.39-.182-2.045H10v3.868h5.382a4.6 4.6 0 01-1.996 3.018v2.51h3.232c1.891-1.742 2.982-4.305 2.982-7.35z"
+          fill="#4285F4" />
+        <path
+          d="M10 20c2.7 0 4.964-.895 6.618-2.423l-3.232-2.509c-.895.6-2.04.955-3.386.955-2.605 0-4.81-1.76-5.595-4.123H1.064v2.59A9.996 9.996 0 0010 20z"
+          fill="#34A853" />
+        <path d="M4.405 11.9a6.015 6.015 0 010-3.8V5.51H1.064a9.996 9.996 0 000 8.98L4.405 11.9z" fill="FBBC04" />
+        <path
+          d="M10 3.977c1.468 0 2.786.505 3.823 1.496l2.868-2.868C14.959.99 12.696 0 10 0 6.09 0 2.71 2.24 1.064 5.51l3.34 2.59C5.192 5.737 7.396 3.977 10 3.977z"
+          fill="#EA4335" />
+      </svg>
+      Sign in with Google
+    </button>
+
+    <div class="divider">OR</div>
+
+    <div class="links">
+      <p>Don't have an account? <a href="register.html">Register here</a></p>
+      <p><a href="admin-login.html">Admin Login →</a></p>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const errorMsg = document.getElementById('errorMsg');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const rememberCheckbox = document.getElementById('remember');
+    const googleSignInBtn = document.getElementById('googleSignInBtn');
+
+    // Load remembered email if exists
+    const rememberedEmail = localStorage.getItem('lms_remembered_email');
+    if (rememberedEmail) {
+      emailInput.value = rememberedEmail;
+      rememberCheckbox.checked = true;
+    }
+
+    // Note: We don't auto-redirect on login page because users 
+    // may want to log in with different credentials or log out
+    // Session checking is handled on protected pages (user.html, etc.)
+
+    // Google Sign-In
+    googleSignInBtn.addEventListener('click', async () => {
+      try {
+        googleSignInBtn.disabled = true;
+        googleSignInBtn.textContent = 'Signing in...';
+
+        const result = await auth.signInWithPopup(googleProvider);
+        const user = result.user;
+
+        // Get user data from Firestore
+        const userDoc = await db.collection('users').doc(user.uid).get();
+
+        if (!userDoc.exists) {
+          // User not registered, redirect to registration
+          showError('Account not found. Please register first.');
+          await auth.signOut();
+          googleSignInBtn.disabled = false;
+          googleSignInBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.6 10.227c0-.709-.064-1.39-.182-2.045H10v3.868h5.382a4.6 4.6 0 01-1.996 3.018v2.51h3.232c1.891-1.742 2.982-4.305 2.982-7.35z" fill="#4285F4"/>
+            <path d="M10 20c2.7 0 4.964-.895 6.618-2.423l-3.232-2.509c-.895.6-2.04.955-3.386.955-2.605 0-4.81-1.76-5.595-4.123H1.064v2.59A9.996 9.996 0 0010 20z" fill="#34A853"/>
+            <path d="M4.405 11.9a6.015 6.015 0 010-3.8V5.51H1.064a9.996 9.996 0 000 8.98L4.405 11.9z" fill="#FBBC04"/>
+            <path d="M10 3.977c1.468 0 2.786.505 3.823 1.496l2.868-2.868C14.959.99 12.696 0 10 0 6.09 0 2.71 2.24 1.064 5.51l3.34 2.59C5.192 5.737 7.396 3.977 10 3.977z" fill="#EA4335"/>
+          </svg>Sign in with Google`;
+          setTimeout(() => {
+            window.location.href = 'register.html';
+          }, 2000);
+          return;
+        }
+
+        // User exists, load data and redirect
+        await loadUserDataAndRedirect(user);
+
+      } catch (error) {
+        console.error('Google Sign-In Error:', error);
+        showError(error.message || 'Failed to sign in with Google. Please try again.');
+        googleSignInBtn.disabled = false;
+        googleSignInBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19.6 10.227c0-.709-.064-1.39-.182-2.045H10v3.868h5.382a4.6 4.6 0 01-1.996 3.018v2.51h3.232c1.891-1.742 2.982-4.305 2.982-7.35z" fill="#4285F4"/>
+          <path d="M10 20c2.7 0 4.964-.895 6.618-2.423l-3.232-2.509c-.895.6-2.04.955-3.386.955-2.605 0-4.81-1.76-5.595-4.123H1.064v2.59A9.996 9.996 0 0010 20z" fill="#34A853"/>
+          <path d="M4.405 11.9a6.015 6.015 0 010-3.8V5.51H1.064a9.996 9.996 0 000 8.98L4.405 11.9z" fill="#FBBC04"/>
+          <path d="M10 3.977c1.468 0 2.786.505 3.823 1.496l2.868-2.868C14.959.99 12.696 0 10 0 6.09 0 2.71 2.24 1.064 5.51l3.34 2.59C5.192 5.737 7.396 3.977 10 3.977z" fill="#EA4335"/>
+        </svg>Sign in with Google`;
+      }
+    });
+
+    // Email/Password Login
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        showError('Please enter both email and password.');
+        return;
+      }
+
+      try {
+        // Sign in with Firebase Authentication
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        // Remember email if checked
+        if (rememberCheckbox.checked) {
+          localStorage.setItem('lms_remembered_email', email);
+        } else {
+          localStorage.removeItem('lms_remembered_email');
+        }
+
+        // Load user data and redirect
+        await loadUserDataAndRedirect(user);
+
+      } catch (error) {
+        console.error('Login Error:', error);
+
+        let errorMessage = 'Invalid email or password. Please try again.';
+        if (error.code === 'auth/user-not-found') {
+          errorMessage = 'No account found with this email. Please register first.';
+        } else if (error.code === 'auth/wrong-password') {
+          errorMessage = 'Incorrect password. Please try again.';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = 'Invalid email address.';
+        } else if (error.code === 'auth/too-many-requests') {
+          errorMessage = 'Too many failed login attempts. Please try again later.';
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+
+        showError(errorMessage);
+      }
+    });
+
+    // Load user data from Firestore and redirect to dashboard
+    async function loadUserDataAndRedirect(user) {
+      try {
+        const userDoc = await db.collection('users').doc(user.uid).get();
+
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+
+          // Store user data in localStorage for compatibility with existing user.html
+          localStorage.setItem('lms_current_user', JSON.stringify({
+            id: user.uid,
+            name: userData.name,
+            email: userData.email,
+            roll: userData.roll,
+            serialNo: userData.serialNo,
+            jisuId: userData.jisuId,
+            phone: userData.phone || '',
+            memberSince: userData.memberSince,
+            borrowed: userData.borrowed || [],
+            history: userData.history || []
+          }));
+
+          // Set login status
+          localStorage.setItem('lms_user_logged_in', 'true');
+          localStorage.setItem('lms_firebase_uid', user.uid);
+
+          // Redirect to user portal
+          window.location.href = 'user.html';
+        } else {
+          showError('User data not found. Please contact support.');
+          await auth.signOut();
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+        showError('Failed to load user data. Please try again.');
+      }
+    }
+
+    function showError(message) {
+      errorMsg.textContent = message;
+      errorMsg.style.display = 'block';
+      setTimeout(() => {
+        errorMsg.style.display = 'none';
+      }, 5000);
+    }
+  </script>
+</body>
+
+</html>
